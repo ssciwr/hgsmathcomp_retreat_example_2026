@@ -1,30 +1,31 @@
-# Welcome to Your Project
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Installation
+# Welcome to the Example project for the HGSComp Retreate Workshop 2026
 
-The Python package `your_project` can be installed from PyPI:
+This project exists to exemplify elements of working effectively with coding agents.
+We are using the Pi Coding Agent here, a minimal open source system, and will built it out
+with extensions as we need.
+We are using a simple version of the Lotka-Volterra equations as an example problem an will built
+a small app that solves them.
 
-```
-python -m pip install your_project
-```
+```math
+\newline
+dx/dt = \alpha x - \beta xy
 
-## Development installation
-
-If you want to contribute to the development of `your_project`, we recommend
-the following editable installation from this repository:
-
-```
-python -m pip install --editable .[tests]
-```
-
-Having done so, the test suite can be run using `pytest`:
+\newline
+dy/dt = \delta xy - \gamma y
 
 ```
-python -m pytest
-```
 
-## Acknowledgments
+There are 7 example exercises:
 
-This repository was set up using the [SSC Cookiecutter for Python Packages](https://github.com/ssciwr/cookiecutter-python-package).
+1. Basic usage of coding agents
+2. More advanced usage of coding agents using plan mode
+3. Agentic test driven development
+4. Behavior driven development
+5. Writing an `Agents.md` file to 'onboard' an agent onto your project
+6. Write a custom skill for the Pi coding agent: `Repo-overview`
+7. Add in an MCP server via the `pi-mcp-adapter`
+
+Each example has a separate branch, such that they can be workd on independently.
+
