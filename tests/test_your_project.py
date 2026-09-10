@@ -1,5 +1,5 @@
-import your_project
+import hgscomp
 
 
 def test_your_project():
-    assert your_project.add_one(1) == 2
+    assert hgscomp.add_one(1) == 2
