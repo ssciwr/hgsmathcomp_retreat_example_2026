@@ -69,11 +69,8 @@ def lotka(t, x, alpha, beta, gamma, delta):
 
 if __name__ == "__main__":
     import argparse, sys
-
     if len(sys.argv) <= 1:
-        sys.stderr.write(
-            "Lotka Volterra equations need parameters alpha, beta, gamma, delta and initial conditions x0, y0\n"
-        )
+        sys.stderr.write("Lotka Volterra equations need parameters alpha, beta, gamma, delta and initial conditions x0, y0\n")
         sys.exit(1)
     parser = argparse.ArgumentParser()
     parser.add_argument("--alpha", type=float, required=True)
@@ -82,7 +79,6 @@ if __name__ == "__main__":
     parser.add_argument("--delta", type=float, required=True)
     parser.add_argument("--x0", type=float, required=True)
     parser.add_argument("--y0", type=float, required=True)
-    parser.add_argument("--t", type=float, required=True)
     args = parser.parse_args()
     t, x, y = solve_lotkavolterra(
         alpha=args.alpha,
@@ -91,7 +87,6 @@ if __name__ == "__main__":
         delta=args.delta,
         x0=args.x0,
         y0=args.y0,
-        t_end=args.t,
     )
     plot_time(t, x, y)
     plot_phase(x, y)
