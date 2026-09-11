@@ -6,6 +6,3 @@ def lotka(t, x, alpha, beta, gamma, delta):
     """
 
     return [alpha * x[0] - beta * x[0] * x[1], delta * x[0] * x[1] - gamma * x[1]]
-
-
-# TODO: implement ex1
