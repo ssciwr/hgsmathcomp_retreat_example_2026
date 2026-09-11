@@ -9,11 +9,8 @@ We are using a simple version of the Lotka-Volterra equations as an example prob
 a small app that solves them.
 
 ```math
-\newline
-dx/dt = \alpha x - \beta xy
-
-\newline
-dy/dt = \delta xy - \gamma y
+dx/dt &= \alpha x - \beta xy \\
+dy/dt &= \delta xy - \gamma y
 
 ```
 
@@ -24,7 +21,7 @@ There are 7 example exercises:
 3. Agentic test driven development
 4. Behavior driven development
 5. Writing an `Agents.md` file to 'onboard' an agent onto your project
-6. Write a custom skill for the Pi coding agent: `Repo-overview`
+6. Write a custom skill for the Pi coding agent: `repo-exploration`
 7. Add in an MCP server via the `pi-mcp-adapter`
 
 Each example has a separate branch, such that they can be workd on independently.
