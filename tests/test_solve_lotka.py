@@ -35,6 +35,8 @@ def run_lotka():
             "10",
             "--y0",
             "10",
+            "--t",
+            "10",
         ],
         capture_output=True,
     )
