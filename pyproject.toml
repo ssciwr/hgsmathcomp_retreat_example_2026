@@ -32,7 +32,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-tests = ["pytest", "pytest-cov"]
+tests = ["pytest", "pytest-cov", "pytest-bdd"]
 
 
 # The following section contains setuptools-specific configuration
