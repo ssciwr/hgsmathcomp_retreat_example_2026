@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "LotkaSolver": {
+            "command": "python3",
+            "args": [
+                "server.py"
+            ],
+            "cwd": "/Users/hmack/Development/hgsmathcomp_retreat_example_2026/mcp/"
+        }
+    }
+}
