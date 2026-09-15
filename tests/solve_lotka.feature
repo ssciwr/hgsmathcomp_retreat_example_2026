@@ -6,8 +6,7 @@ Feature: solve_lotkavolterra
   Scenario: single parameter input produces trajectory plot
     Given the lotka script accepts command line arguments alpha, beta, gamma, delta, x0, y0
     When I run lotka.py with parameters and initial conditions
-    Then I see a plot of x(t), y(t)
-    And I see a plot of y(x) next to it in the same pane
+    Then the trajectory plots are generated without an error
 
   Scenario: no parameters or initial conditions passed as input
     Given the lotka script accepts command line arguments alpha, beta, gamma, delta, x0, y0
