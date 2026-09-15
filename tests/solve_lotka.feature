@@ -13,5 +13,3 @@ Feature: solve_lotkavolterra
     When I pass no command line arguments
     Then I see an error message 'Lotka Volterra equations need parameters alpha, beta, gamma, delta and initial conditions x0, y0'
     And the program exits with an error code
-
-
