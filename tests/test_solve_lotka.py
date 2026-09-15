@@ -1,96 +1,86 @@
-import importlib.util
+import os
 import subprocess
 import sys
+from pathlib import Path
 
 from pytest_bdd import given, scenarios, then, when
+
 
 scenarios("solve_lotka.feature")
 
 
+SCRIPT_PATH = Path(__file__).parents[1] / "src" / "hgscomp" / "lotka.py"
+PARAMETERS = [
+    "--alpha",
+    "1",
+    "--beta",
+    "0.1",
+    "--gamma",
+    "1.5",
+    "--delta",
+    "0.075",
+    "--x0",
+    "10",
+    "--y0",
+    "10",
+    "--t",
+    "10",
+]
+
+
 @given(
-    "the lotka script accepts command line arguments alpha, beta, gamma, delta, x0, y0"
+    "the lotka script accepts command line arguments alpha, beta, gamma, delta, x0, y0, t"
 )
 def lotka_args():
-    spec = importlib.util.spec_from_file_location("lotka", "src/hgscomp/lotka.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    assert not hasattr(mod, "main"), "CLI entry point missing"
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT_PATH), "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0
+    for argument in ("--alpha", "--beta", "--gamma", "--delta", "--x0", "--y0", "--t"):
+        assert argument in result.stdout
 
 
-@when("I run lotka.py with parameters and initial conditions")
+@when(
+    "I run lotka.py with parameters and initial conditions", target_fixture="run_result"
+)
 def run_lotka():
-    result = subprocess.run(
-        [
-            sys.executable,
-            "src/hgscomp/lotka.py",
-            "--alpha",
-            "1",
-            "--beta",
-            "0.1",
-            "--gamma",
-            "1.5",
-            "--delta",
-            "0.075",
-            "--x0",
-            "10",
-            "--y0",
-            "10",
-        ],
+    """Run the script with a non-interactive matplotlib backend for testing."""
+    environment = {**os.environ, "MPLBACKEND": "Agg"}
+    return subprocess.run(
+        [sys.executable, str(SCRIPT_PATH), *PARAMETERS],
         capture_output=True,
+        text=True,
+        env=environment,
     )
-    assert result.returncode == 0, f"script failed: {result.stderr.decode()}"
-    return result
 
 
-@then("I see a plot of x(t), y(t)")
-def plot_time():
-    from src.hgscomp import lotka
-
-    assert hasattr(lotka, "plot_time"), "plot function not implemented"
+@then("the trajectory plots are generated without an error")
+def trajectory_plots_generated(run_result):
+    assert run_result.returncode == 0, run_result.stderr
 
 
-@then("I see a plot of y(x)")
-def plot_phase():
-    from src.hgscomp import lotka
-
-    assert hasattr(lotka, "plot_phase"), "phase plot not implemented"
-
-
-@then("I see a plot of y(x) next to it in the same pane")
-def plot_phase_next_to():
-    from src.hgscomp import lotka
-
-    assert hasattr(lotka, "plot_phase"), "phase plot not implemented"
-
-
-@when("I pass no command line arguments")
+@when("I pass no command line arguments", target_fixture="no_args_result")
 def run_lotka_no_args():
-    result = subprocess.run(
-        [sys.executable, "src/hgscomp/lotka.py"],
+    return subprocess.run(
+        [sys.executable, str(SCRIPT_PATH)],
         capture_output=True,
+        text=True,
     )
-    return result
 
 
 @then(
     "I see an error message 'Lotka Volterra equations need parameters alpha, beta, gamma, delta and initial conditions x0, y0'"
 )
-def error_message():
-    result = subprocess.run(
-        [sys.executable, "src/hgscomp/lotka.py"],
-        capture_output=True,
-    )
-    msg = result.stderr.decode() + result.stdout.decode()
+def error_message(no_args_result):
+    message = no_args_result.stderr + no_args_result.stdout
     assert (
         "Lotka Volterra equations need parameters alpha, beta, gamma, delta and initial conditions x0, y0"
-        in msg
+        in message
     )
 
 
 @then("the program exits with an error code")
-def exit_error():
-    result = subprocess.run(
-        [sys.executable, "src/hgscomp/lotka.py"],
-        capture_output=True,
-    )
-    assert result.returncode != 0
+def exit_error(no_args_result):
+    assert no_args_result.returncode != 0
